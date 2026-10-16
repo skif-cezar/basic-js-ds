@@ -12,20 +12,50 @@ const { NotImplementedError } = require('../lib');
  * stack.pop(); // undefined
  *
  */
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = undefined;
+  }
+}
+
 class Stack {
-  push(/* value */) {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  constructor() {
+    this.top = undefined;
+    this.size = 0;
+  }
+
+  push(value) {
+    const newNode = new Node(value);
+    newNode.next = this.top;
+    this.top = newNode;
+    this.size++;
   }
 
   pop() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+    if (this.isEmpty()) {
+      console.log('Stack is empty');
+      return undefined;
+    }
+
+    const poppedValue = this.top.value;
+    this.top = this.top.next;
+    this.size--;
+
+    return poppedValue;
   }
 
   peek() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+    return this.isEmpty() ? undefined : this.top.value;
+  }
+
+  isEmpty() {
+    return this.size === 0;
+  }
+
+  getSize() {
+    return this.size;
   }
 }
 
