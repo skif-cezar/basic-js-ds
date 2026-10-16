@@ -1,5 +1,5 @@
 const { NotImplementedError } = require('../lib');
-// const { ListNode } = require('../extensions/list-node.js');
+const { ListNode } = require('../extensions/list-node.js');
 
 /**
  * Implement the Queue with a given interface via linked list (use ListNode extension above).
@@ -13,13 +13,6 @@ const { NotImplementedError } = require('../lib');
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
 
-class Node {
-  constructor(value) {
-    this.value = value;
-    this.next = null;
-  }
-}
-
 class Queue {
   constructor() {
     this.head = null;
@@ -32,11 +25,21 @@ class Queue {
       return null;
     }
 
-    return this.head;
+    let current = this.head;
+    let result = { value: current.value, next: null };
+    let currentRes = result;
+
+    while (current.next) {
+      current = current.next;
+      currentRes.next = { value: current.value, next: null };
+      currentRes = currentRes.next;
+    }
+
+    return result;
   }
 
   enqueue(value) {
-    const newNode = new Node(value);
+    const newNode = new ListNode(value);
 
     if (this.isEmpty()) {
       this.head = newNode;
@@ -52,7 +55,7 @@ class Queue {
   dequeue() {
     if (this.isEmpty()) {
       console.log('Queue is empty');
-      return null;
+      return undefined;
     }
 
     const removedNode = this.head;
@@ -64,7 +67,7 @@ class Queue {
 
     this.size--;
 
-    return removedNode;
+    return removedNode.value;
   }
 
   isEmpty() {
